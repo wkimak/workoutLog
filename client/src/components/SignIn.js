@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-class SignIn extends React.Component {
+class SignIn extends Component {
 
   constructor(props) {
     super(props);
@@ -11,14 +11,30 @@ class SignIn extends React.Component {
 
   render() {
     return(
-      <div>
-        <form>
-          <input type='text' placeholder='Username' />
-          <input type='password' placeholder="Password" />
-          <input type='submit' value='Sign In' />  <button onClick={ () => this.props.handleView('signup') } > Sign Up </button>
-        </form>
-       
-      </div>
+
+
+    <div className="row">
+       <form className="col s4">
+         <div className="row">
+           <div className="input-field col s12">
+             <input id="last_name" type="text" className="validate" />
+             <label for="last_name">Username</label>
+           </div>
+         </div>
+     
+         <div className="row">
+           <div className="input-field col s12">
+             <input type="password" className="validate" />
+             <label for="password">Password</label>
+           </div>
+         </div>
+        <div className="row">
+         <button className="waves-effect waves-light btn-large col s4" name="action">Login</button>
+         <button className="waves-effect waves-light btn-large col s4" name="action" onClick={ () => this.props.handleView('sign up') } >Sign Up</button>
+        </div>
+       </form>
+     </div>
+
     );
   }
 }

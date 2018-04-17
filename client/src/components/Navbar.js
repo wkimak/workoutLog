@@ -1,15 +1,19 @@
 import React from 'react';
 
+
 const Navbar = function({ handleView }) {
 
   return(
-    <div className='navbar_container'>
-      <ul onClick={(event) => handleView(event.target.value)}>
-        <li value='1'>Calendar</li>
-        <li value='2'>Forum</li>
-        <li value='3'>Sign In</li>
-      </ul>
-    </div>  
+   <nav>
+      <div className="nav-wrapper">
+        <a href="#" className="brand-logo">Workout Log</a>
+        <ul className="right hide-on-med-and-down" onClick={ (event) => handleView(event.target.innerHTML.toLowerCase()) }>
+          <li>Calendar</li>
+          <li>Chat</li>
+          <li>Sign In</li>
+        </ul>
+      </div>
+    </nav>
   );
 }
 

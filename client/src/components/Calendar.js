@@ -1,23 +1,18 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 
-class Calendar extends React.Component {
-	constructor() {
-		super();
-	}
+class Calendar extends Component {
+  constructor() {
+    super();
+  }
 
-	render() {
-		var today = new Date();
-		var minDate = Number(new Date()) - (24*60*60*1000) * 7;
-		return(
-			<div>
+  render() {
+	  return(
+	    <div>
         Calendar
-			</div>
-
-			
-		);
-	}
-
+	    </div>
+    );
+  }
 }
 
 export default Calendar;
