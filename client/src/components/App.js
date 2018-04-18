@@ -5,6 +5,8 @@ import Chat from './Chat';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 
+import axios from 'axios';
+
 
 class App extends Component {
 
@@ -17,6 +19,15 @@ class App extends Component {
 
     this.handleView = this.handleView.bind(this);
     this.renderView = this.renderView.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+  }
+
+  //POST user to server
+  handleSignUp(username, password) {
+    axios.post('/users', {username: username, password:password})
+    .catch((err) => {
+      console.log('POST request failed for /users', err);
+    })
   }
 
 
@@ -34,7 +45,7 @@ class App extends Component {
     } else if(this.state.view === 'sign in') {
       return <SignIn handleView={ this.handleView } />
     } else if(this.state.view === 'sign up') {
-      return <SignUp />
+      return <SignUp handleSignUp={ this.handleSignUp } />
     }
   }
 

@@ -5,33 +5,60 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
-	}
+      usernameVal: '',
+      passwordVal: '',
+      confPasswordVal: ''
+	  }
+    this.handleInputs = this.handleInputs.bind(this);
+    this.submit = this.submit.bind(this);
   }
+
+  handleInputs(e) {
+    const target = e.target.id;
+    if(target === 'username') {
+      this.setState({
+        usernameVal: e.target.value
+      })
+    } else if(target === 'password') {
+      this.setState({
+        passwordVal: e.target.value
+      })
+    } else {
+      this.setState({
+        confPasswordVal: e.target.value
+      })
+    }
+  }
+
+  submit(e) {
+    e.preventDefault();
+    this.props.handleSignUp(this.state.usernameVal, this.state.passwordVal);
+  }
+
 
   render() {
     return (
       <div className="container"> 
         <div className="row">
-          <form>
+          <form onSubmit={ (e) => this.submit(e) }>
             <div className="row">
               <div className="input-field col s6 offset-s3">
-                <input id="last_name" type="text" className="validate" />
-                <label for="last_name">Username</label>
+                <input id="username" type="text" value={ this.state.usernameVal } onChange={ (e) => this.handleInputs(e) } />
+                <label for="username">Username</label>
               </div>
             </div>
       
             <div className="row">
               <div className="input-field col s6 offset-s3">
-                <input type="password" className="validate" />
+                <input id="password" type="password" className="validate" value={ this.state.passwordVal } onChange={ (e) => this.handleInputs(e) } />
                 <label for="password">Password</label>
               </div>
             </div>
 
             <div className="row">
               <div className="input-field col s6 offset-s3">
-                <input type="password" className="validate" />
-                <label for="password">Confirm Password</label>
+                <input id="confPassword" type="password" className="validate" value={ this.state.confPasswordVal } onChange={ (e) => this.handleInputs(e) } />
+                <label for="confPassword">Confirm Password</label>
               </div>
             </div>
 

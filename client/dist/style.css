@@ -31,10 +31,7 @@ nav {
 
 
 /* ------ ViewLogs ----- */
-.viewLogs_container {
-  position: absolute;
 
-}
 
 
 /* ------- Chat -------- */
@@ -45,6 +42,10 @@ nav {
 .chat_room {
   height: 400px;
   margin-top: 75px;
+}
+
+.message_input {
+  height: 40px;
 }
 
 

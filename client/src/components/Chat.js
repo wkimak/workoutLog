@@ -13,7 +13,7 @@ class Chat extends Component {
             <div className='card-content'>
               <div className='row chat_room'> </div>
               <div className='row'>
-                <input className='browser-default col s8' type='text' placeholder='Message' />
+                <input className='browser-default message_input col s8' type='text' placeholder='Message' />
                 <button className="btn col s2 offset-s1">Send</button>
               </div>
             </div>
