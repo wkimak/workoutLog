@@ -11,31 +11,30 @@ class SignIn extends Component {
 
   render() {
     return(
-
-    <div className="container">
-    <div className="row col s6">
-       <form>
-         <div className="row">
-           <div className="input-field col s12">
-             <input id="last_name" type="text" className="validate" />
-             <label for="last_name">Username</label>
-           </div>
-         </div>
-     
-         <div className="row">
-           <div className="input-field col s12">
-             <input type="password" className="validate" />
-             <label for="password">Password</label>
-           </div>
-         </div>
+      <div className="container">
         <div className="row">
-         <button className="waves-effect waves-light btn-large col s6" name="action">Login</button>
-         <button className="waves-effect waves-light btn-large col s6" name="action" onClick={ () => this.props.handleView('sign up') } >Sign Up</button>
+          <form>
+            <div className="row">
+              <div className="input-field col s6 offset-s3">
+                <input id="last_name" type="text" className="validate" />
+                <label for="last_name">Username</label>
+              </div>
+            </div>
+     
+            <div className="row">
+              <div className="input-field col s6 offset-s3">
+                <input type="password" className="validate" />
+                <label for="password">Password</label>
+              </div>
+            </div>
+        
+            <div className="row">
+              <button className="waves-light btn-large col s2 offset-s4" name="action">Login</button>
+              <button className="waves-light btn-large col s2" name="action" onClick={ () => this.props.handleView('sign up') } >Sign Up</button>
+            </div>
+          </form>
         </div>
-       </form>
-     </div>
-     </div>
-
+      </div>
     );
   }
 }

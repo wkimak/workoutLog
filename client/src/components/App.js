@@ -28,7 +28,7 @@ class App extends Component {
 
   renderView() {
     if(this.state.view === 'log') {
-      return <Log />
+      return <Log handleView={ this.handleView } />
     } else if(this.state.view === 'chat') {
       return <Chat />
     } else if(this.state.view === 'sign in') {

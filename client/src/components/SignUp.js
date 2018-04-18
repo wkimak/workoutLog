@@ -11,31 +11,31 @@ class SignUp extends React.Component {
 
   render() {
     return (
-     <div className="container"> 
-     <div className="row col s6">
-        <form>
-          <div className="row">
-            <div className="input-field col s12">
-              <input id="last_name" type="text" className="validate" />
-              <label for="last_name">Username</label>
+      <div className="container"> 
+        <div className="row">
+          <form>
+            <div className="row">
+              <div className="input-field col s6 offset-s3">
+                <input id="last_name" type="text" className="validate" />
+                <label for="last_name">Username</label>
+              </div>
             </div>
-          </div>
       
-          <div className="row">
-            <div className="input-field col s12">
-              <input type="password" className="validate" />
-              <label for="password">Password</label>
+            <div className="row">
+              <div className="input-field col s6 offset-s3">
+                <input type="password" className="validate" />
+                <label for="password">Password</label>
+              </div>
             </div>
-          </div>
 
-          <div className="row">
-            <div className="input-field col s12">
-              <input type="password" className="validate" />
-              <label for="password">Confirm Password</label>
+            <div className="row">
+              <div className="input-field col s6 offset-s3">
+                <input type="password" className="validate" />
+                <label for="password">Confirm Password</label>
+              </div>
             </div>
-          </div>
 
-          <button className="btn waves-effect waves-light col s8" type="submit" name="action">Submit</button>
+           <button className="btn waves-light col s4 offset-s4" type="submit" name="action">Submit</button>
 
         </form>
       </div>
