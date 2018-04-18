@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Navbar from './Navbar';
-import Calendar from './Calendar';
+import Log from './Log';
 import Chat from './Chat';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
@@ -27,8 +27,8 @@ class App extends Component {
   }
 
   renderView() {
-    if(this.state.view === 'calendar') {
-      return <Calendar />
+    if(this.state.view === 'log') {
+      return <Log />
     } else if(this.state.view === 'chat') {
       return <Chat />
     } else if(this.state.view === 'sign in') {
