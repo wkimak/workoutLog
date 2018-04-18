@@ -21,7 +21,6 @@ class App extends Component {
 
 
   handleView(option) {
-    console.log(option);
     this.setState({
       view: option
     })
@@ -42,7 +41,7 @@ class App extends Component {
 
   render() {
   	return(
-      <div>
+      <div className='app_container'>
         <Navbar handleView={ this.handleView } />
         {this.renderView()}
       </div>

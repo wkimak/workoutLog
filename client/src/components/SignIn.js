@@ -12,9 +12,9 @@ class SignIn extends Component {
   render() {
     return(
 
-
-    <div className="row">
-       <form className="col s4">
+    <div className="container">
+    <div className="row col s6">
+       <form>
          <div className="row">
            <div className="input-field col s12">
              <input id="last_name" type="text" className="validate" />
@@ -29,10 +29,11 @@ class SignIn extends Component {
            </div>
          </div>
         <div className="row">
-         <button className="waves-effect waves-light btn-large col s4" name="action">Login</button>
-         <button className="waves-effect waves-light btn-large col s4" name="action" onClick={ () => this.props.handleView('sign up') } >Sign Up</button>
+         <button className="waves-effect waves-light btn-large col s6" name="action">Login</button>
+         <button className="waves-effect waves-light btn-large col s6" name="action" onClick={ () => this.props.handleView('sign up') } >Sign Up</button>
         </div>
        </form>
+     </div>
      </div>
 
     );

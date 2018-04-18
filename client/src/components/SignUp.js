@@ -11,8 +11,9 @@ class SignUp extends React.Component {
 
   render() {
     return (
-     <div className="row">
-        <form className="col s4">
+     <div className="container"> 
+     <div className="row col s6">
+        <form>
           <div className="row">
             <div className="input-field col s12">
               <input id="last_name" type="text" className="validate" />
@@ -34,9 +35,10 @@ class SignUp extends React.Component {
             </div>
           </div>
 
-          <button className="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-          
+          <button className="btn waves-effect waves-light col s8" type="submit" name="action">Submit</button>
+
         </form>
+      </div>
       </div>
     );
   }

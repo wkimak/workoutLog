@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(express.static(__dirname + '/../client/dist'));
 
+
 app.listen('3000', () => {
 	console.log('listening at port 3000');
 })
