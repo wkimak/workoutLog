@@ -1,15 +1,39 @@
 import React, {Component} from 'react';
 
+/* ------ Level 3 ------ */
+
 class LogForm extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-      numRows: 1
+      numRows: 1,
+      exerciseVals: [],
+      setsVals: [],
+      repsVals: []
 		}
 
     this.addRow = this.addRow.bind(this);
+    this.submitLog = this.submitLog.bind(this);
 	}
+
+
+  submitLog(rows) {
+    for(let i = 0; i < rows.length; i++) {
+      this.state.exerciseVals.push(this.refs['exercise' + i].value);
+      this.state.setsVals.push(this.refs['sets' + i].value);
+      this.state.repsVals.push(this.refs['reps' + i].value);
+    }
+
+    this.setState(this.state);
+
+    this.props.sendValuesUp(this.state.exerciseVals, this.state.setsVals, this.state.repsVals);
+    this.setState({
+      exerciseVals: [],
+      setsVals: [],
+      repsVals: []
+    })
+  }
 
 
 
@@ -21,17 +45,19 @@ class LogForm extends Component {
   }
 
 
+
 	render() {
 
 		const rows = [];
-
-    let row = <tr>
-    <td><input className='browser-default col s8' type='text' /></td>
-    <td> <input className='browser-default col s3' type='text' /></td>
-    <td><input className='browser-default col s3' type='text' /></td>
-    </tr>;
-
 		for(let i = 0; i < this.state.numRows; i++) {
+
+     let row = <tr key={i} >
+     <td><input ref={'exercise' + i} name='exercise' className='browser-default col s8' type='text' /></td>
+     <td> <input ref={'sets' + i} name='sets' className='browser-default col s3' type='text' /></td>
+     <td><input ref={'reps' + i} name='reps' className='browser-default col s3' type='text' /></td>
+     </tr>;
+
+
 		  rows.push(row);
 		}
 
@@ -43,7 +69,7 @@ class LogForm extends Component {
 			        <table>
                 <thead>
                   <tr> 
-                    <th> Excersize </th>
+                    <th> Exercise </th>
                     <th> # Sets </th>
                     <th> # Reps </th>
                   </tr>  
@@ -54,7 +80,8 @@ class LogForm extends Component {
                 </tbody>
               </table>
 			 
-			        <button className="waves-effect waves-teal btn-flat" onClick={ (e) => this.addRow(e) }>Add</button>
+			        <button className="waves-teal btn-flat col s1" onClick={ (e) => this.addRow(e) }>Add</button>
+              <button className='col s2 btn offset-s4' onClick={ () => this.submitLog(rows) }>Submit</button>
 			      </div>
           </div>
         </div>

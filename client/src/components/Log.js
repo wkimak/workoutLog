@@ -11,14 +11,20 @@ class Log extends Component {
 
     this.state = {
       viewLogsVisible: false,
+      dateVal: ''
     }
 
     this.showViewLogs = this.showViewLogs.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.sendValuesUp = this.sendValuesUp.bind(this);
   }
 
+  handleInput(e) {
+    this.setState({ dateVal: e.target.value });
+  }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+  sendValuesUp(exercise, sets, reps) {
+    this.props.handleLogForm(exercise, sets, reps, this.state.dateVal);
   }
 
 
@@ -34,12 +40,11 @@ class Log extends Component {
 		  <div>
         <div className='container'>
           <div className='row'>
-            <input className='col s4 offset-s1' type='text' placeholder='Date' />
-            <button className='col s2 btn offset-s1'>Submit</button>
-            <button className='col s2 btn' onClick={ () => this.showViewLogs() }>View Logs</button>
+            <input className='col s4 offset-s1' type='text' placeholder='YYYY-M-D' value={ this.state.dateVal } onChange={ (e) => this.handleInput(e) } />
+            <button className='col s2 btn offset-s1' onClick={ () => this.showViewLogs() }>View Logs</button>
           </div>
         </div>
-        <LogForm />
+        <LogForm sendValuesUp={ this.sendValuesUp } />
         { this.state.viewLogsVisible ? <ViewLogs /> : null }
       </div>
     )
