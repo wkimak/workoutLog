@@ -15,13 +15,15 @@ class App extends Component {
 
     this.state = {
       view: 'sign in',
-      username: ''
+      username: '',
+      logData: []
     }
 
     this.handleView = this.handleView.bind(this);
     this.renderView = this.renderView.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogForm = this.handleLogForm.bind(this);
+    this.handleViewLogs = this.handleViewLogs.bind(this);
   }
 
   //POST username/password to server
@@ -45,6 +47,22 @@ class App extends Component {
   }
 
 
+  //GET log information from server
+  handleViewLogs(date) {
+    axios.get('/logs', { params: { date: date, username: this.state.username }})
+    .then((data) => {
+      console.log('DATTTAAA', data);
+      this.setState({
+        logData: data.data
+      })
+    })
+    .catch((err) => {
+      console.log('GET request failed for /logs', err);
+    })
+
+  }
+
+
   handleView(option) {
     this.setState({
       view: option
@@ -53,13 +71,13 @@ class App extends Component {
 
   renderView() {
     if(this.state.view === 'log') {
-      return <Log handleLogForm={ this.handleLogForm } handleView={ this.handleView } />
+      return <Log logData={ this.state.logData } handleViewLogs={ this.handleViewLogs } handleLogForm={ this.handleLogForm } handleView={ this.handleView } />
     } else if(this.state.view === 'chat') {
       return <Chat />
     } else if(this.state.view === 'sign in') {
       return <SignIn handleView={ this.handleView } />
     } else if(this.state.view === 'sign up') {
-      return <SignUp handleSignUp={ this.handleSignUp } />
+      return <SignUp handleView={ this.handleView } handleSignUp={ this.handleSignUp } />
     }
   }
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import LogForm from './LogForm';
 import ViewLogs from './ViewLogs';
+import moment from 'moment';
 
 /* ------ Level 2 ------ */
 
@@ -11,7 +12,7 @@ class Log extends Component {
 
     this.state = {
       viewLogsVisible: false,
-      dateVal: ''
+      dateVal: moment(new Date()).format('YYYY MM DD').replace(/\s/g, '-')
     }
 
     this.showViewLogs = this.showViewLogs.bind(this);
@@ -45,7 +46,7 @@ class Log extends Component {
           </div>
         </div>
         <LogForm sendValuesUp={ this.sendValuesUp } />
-        { this.state.viewLogsVisible ? <ViewLogs /> : null }
+        { this.state.viewLogsVisible ? <ViewLogs logData={ this.props.logData } handleViewLogs={ this.props.handleViewLogs } /> : null }
       </div>
     )
   }

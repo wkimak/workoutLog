@@ -25,6 +25,8 @@ class SignUp extends React.Component {
       passwordVal: '',
       confPasswordVal: ''
     })
+
+    this.props.handleView('sign in');
   }
 
 

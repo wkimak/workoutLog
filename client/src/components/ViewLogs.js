@@ -2,51 +2,46 @@ import React, {Component} from 'react';
 import DayPicker from 'react-day-picker/DayPickerInput';
 
 
-class ViewLogs extends Component {
-  constructor(props) {
-    super(props);
+  
+const ViewLogs = function({ handleViewLogs, logData }) {
 
-    this.state = {
-      
-    }
-    
-  }
+  let rows = logData.map((item, i) => {
+    return (
+      <tr key={ i }>
+        <td> { item.exercise } </td>
+        <td> { item.sets }  </td>
+        <td> { item.reps } </td>
+      </tr>
+    );
+  })
 
-  render() {
-	  return(
-      <div className='container'>
+  return(
+    <div className='container'>
       <div className='row'>
         <div className='card col s12'>
           <div className='card-content'>
-             <DayPicker />
-             <div className='row'>
-               
-                  <table>
-                     <thead>
-                       <tr> 
-                         <th> Excersize </th>
-                         <th> # Sets </th>
-                         <th> # Reps </th>
-                       </tr>  
-                     </thead>
-
-                     <tbody>
-                       <tr>
-                         <td>yoyoy</td>
-                         <td>heyehye</td>
-                         <td>supsupsup</td>
-                       </tr>
-                     </tbody>
-                   </table>
-                </div>
-              
+            <DayPicker value={ new Date() } onDayChange={ (day) => handleViewLogs(day) } />
+            <div className='row'>
+              <table>
+                <thead>
+                  <tr> 
+                    <th> Excersize </th>
+                    <th> # Sets </th>
+                    <th> # Reps </th>
+                  </tr>  
+                </thead>
+  
+                <tbody>
+                  { rows }
+                </tbody>
+              </table>
+            </div>
           </div>  
         </div>
       </div>
-      </div>
-     
-    );
-  }
+    </div>
+  );
 }
+
 
 export default ViewLogs;

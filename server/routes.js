@@ -9,5 +9,7 @@ const logsControllers = require('./controllers/logsControllers');
 router.post('/users', usersControllers.insertUsers);
 router.post('/logs', logsControllers.insertLogs);
 
+router.get('/logs', logsControllers.getLogs);
+
 module.exports = router;
 
