@@ -1,5 +1,4 @@
 
-
 * {
 	box-sizing: border-box;
 }
@@ -27,8 +26,10 @@ nav {
   padding: 100px;
 }
 
-/* ------ Log ------- */
-
+/* ------ LogForm ------- */
+.logForm_buttons {
+  margin-top: 30px;
+}
 
 /* ------ ViewLogs ----- */
 

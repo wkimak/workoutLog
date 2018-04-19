@@ -75,10 +75,15 @@ class LogForm extends Component {
                 <tbody>
                   {rows}
                 </tbody>
+                
               </table>
+              
+              <div className='row logForm_buttons'>
+                <button className="waves-teal btn-flat col s2" onClick={ (e) => this.addRow(e) }>Add</button>
+                <button className='col s3 btn offset-s6' onClick={ () => this.submitLog(rows) }>Submit</button>
+              </div>
 			 
-			        <button className="waves-teal btn-flat col s1" onClick={ (e) => this.addRow(e) }>Add</button>
-              <button className='col s2 btn offset-s4' onClick={ () => this.submitLog(rows) }>Submit</button>
+			        
 			      </div>
           </div>
         </div>

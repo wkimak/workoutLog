@@ -2,7 +2,6 @@
  const moment = require('moment');
 
  exports.insertLogs = (req, res) => {
- 
   let formatDate = moment(req.body.created_at).format('YYYY MM DD');
   let finalDate = formatDate.replace(/\s/g, '-');
 
@@ -34,7 +33,6 @@
 
 
 exports.getLogs = (req,res) => {
-
   let formatDate = moment(req.query.date).format('YYYY MM DD');
   let finalDate = formatDate.replace(/\s/g, '-');
  
@@ -56,14 +54,11 @@ exports.getLogs = (req,res) => {
 }
 
 exports.deleteLog = (req, res) => {
-
-knex('logs').where({id: req.body.logId}).del()
-.then((data) => {
-  console.log(data);
-  res.send();
-})
-.catch((err) => {
-  console.log('error deleting log item', err);
-})
-
+  knex('logs').where({id: req.query.logId}).del()
+  .then((data) => {
+    res.send();
+  })
+  .catch((err) => {
+    console.log('error deleting log item', err);
+  })
 }

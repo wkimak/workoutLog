@@ -42,11 +42,11 @@ class Log extends Component {
         <div className='container'>
           <div className='row'>
             <input className='col s4 offset-s1' type='text' placeholder='YYYY-M-D' value={ this.state.dateVal } onChange={ (e) => this.handleInput(e) } />
-            <button className='col s2 btn offset-s1' onClick={ () => this.showViewLogs() }>View Logs</button>
+            <button className='col s4 btn offset-s1' onClick={ () => this.showViewLogs() }>View Logs</button>
           </div>
         </div>
         <LogForm sendValuesUp={ this.sendValuesUp } />
-        { this.state.viewLogsVisible ? <ViewLogs deleteLog={ this.props.deleteLog } logData={ this.props.logData } handleViewLogs={ this.props.handleViewLogs } /> : null }
+        { this.state.viewLogsVisible ? <ViewLogs dateVal={ this.state.dateVal } deleteLog={ this.props.deleteLog } logData={ this.props.logData } handleViewLogs={ this.props.handleViewLogs } /> : null }
       </div>
     )
   }

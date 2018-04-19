@@ -59,7 +59,7 @@ class App extends Component {
 
     this.setState({ logData: copy });
 
-    axios.post('/deleteLog', {logId: id})
+    axios.delete('/deleteLog', { params: { logId: id } })
     .catch((err) => {
       console.log('error deleting log', err);
     })
@@ -70,7 +70,6 @@ class App extends Component {
   handleViewLogs(date) {
     axios.get('/logs', { params: { date: date, username: this.state.username }})
     .then((data) => {
-      console.log('DATTTAAA', data);
       this.setState({
         logData: data.data
       })
@@ -79,7 +78,6 @@ class App extends Component {
       console.log('GET request failed for /logs', err);
     })
   }
-
 
   handleView(option) {
     this.setState({
