@@ -8,6 +8,7 @@ const logsControllers = require('./controllers/logsControllers');
 /* ----- routes ----- */
 router.post('/users', usersControllers.insertUsers);
 router.post('/logs', logsControllers.insertLogs);
+router.post('/deleteLog', logsControllers.deleteLog);
 
 router.get('/logs', logsControllers.getLogs);
 

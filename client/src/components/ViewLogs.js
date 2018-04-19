@@ -3,14 +3,16 @@ import DayPicker from 'react-day-picker/DayPickerInput';
 
 
   
-const ViewLogs = function({ handleViewLogs, logData }) {
+const ViewLogs = function({ deleteLog, handleViewLogs, logData }) {
 
   let rows = logData.map((item, i) => {
+    console.log('MAPPED', item)
     return (
-      <tr key={ i }>
+      <tr key={ item.id }>
         <td> { item.exercise } </td>
         <td> { item.sets }  </td>
         <td> { item.reps } </td>
+        <td><i className="material-icons" onClick={ () => deleteLog(item.id, i)}>delete</i></td>
       </tr>
     );
   })

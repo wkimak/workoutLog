@@ -23,6 +23,7 @@ class App extends Component {
     this.renderView = this.renderView.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogForm = this.handleLogForm.bind(this);
+    this.deleteLog = this.deleteLog.bind(this);
     this.handleViewLogs = this.handleViewLogs.bind(this);
   }
 
@@ -46,6 +47,24 @@ class App extends Component {
      })
   }
 
+  //POST item to delete to server
+  deleteLog(id, index) {
+    const copy = this.state.logData;
+
+    this.state.logData.map((item, i) => {
+      if(index === i) {
+        copy.splice(i, 1);
+      }
+    })
+
+    this.setState({ logData: copy });
+
+    axios.post('/deleteLog', {logId: id})
+    .catch((err) => {
+      console.log('error deleting log', err);
+    })
+  }
+
 
   //GET log information from server
   handleViewLogs(date) {
@@ -59,7 +78,6 @@ class App extends Component {
     .catch((err) => {
       console.log('GET request failed for /logs', err);
     })
-
   }
 
 
@@ -71,7 +89,7 @@ class App extends Component {
 
   renderView() {
     if(this.state.view === 'log') {
-      return <Log logData={ this.state.logData } handleViewLogs={ this.handleViewLogs } handleLogForm={ this.handleLogForm } handleView={ this.handleView } />
+      return <Log logData={ this.state.logData } handleViewLogs={ this.handleViewLogs } deleteLog={ this.deleteLog } handleLogForm={ this.handleLogForm } handleView={ this.handleView } />
     } else if(this.state.view === 'chat') {
       return <Chat />
     } else if(this.state.view === 'sign in') {

@@ -35,8 +35,6 @@ class LogForm extends Component {
     })
   }
 
-
-
   addRow(e) {
     e.preventDefault();
     this.setState({
@@ -56,7 +54,6 @@ class LogForm extends Component {
      <td> <input ref={'sets' + i} name='sets' className='browser-default col s3' type='text' /></td>
      <td><input ref={'reps' + i} name='reps' className='browser-default col s3' type='text' /></td>
      </tr>;
-
 
 		  rows.push(row);
 		}

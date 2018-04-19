@@ -9,7 +9,7 @@
   knex.select('id').from('users').where({username: req.body.username})
   .then((data) => {
     let usernameId = data[0].id;
-    
+
   	for(let i = 0; i<req.body.exercise.length; i++) {
 
     let exercise = req.body.exercise[i];
@@ -52,5 +52,18 @@ exports.getLogs = (req,res) => {
   .catch((err) => {
     console.log('error retriving usernameId', err);
   })
+
+}
+
+exports.deleteLog = (req, res) => {
+
+knex('logs').where({id: req.body.logId}).del()
+.then((data) => {
+  console.log(data);
+  res.send();
+})
+.catch((err) => {
+  console.log('error deleting log item', err);
+})
 
 }

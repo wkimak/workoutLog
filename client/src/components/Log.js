@@ -46,7 +46,7 @@ class Log extends Component {
           </div>
         </div>
         <LogForm sendValuesUp={ this.sendValuesUp } />
-        { this.state.viewLogsVisible ? <ViewLogs logData={ this.props.logData } handleViewLogs={ this.props.handleViewLogs } /> : null }
+        { this.state.viewLogsVisible ? <ViewLogs deleteLog={ this.props.deleteLog } logData={ this.props.logData } handleViewLogs={ this.props.handleViewLogs } /> : null }
       </div>
     )
   }
