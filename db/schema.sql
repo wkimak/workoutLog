@@ -22,16 +22,14 @@ CREATE TABLE logs (
   FOREIGN KEY (usernameId) REFERENCES users(id) 
 );
 
+
 CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   created_at DATETIME NOT NULL,
-  message VARCHAR(255)
+  message VARCHAR(255),
+  usernameId INT,
+  FOREIGN KEY (usernameId) REFERENCES users(id)
 );
 
-CREATE TABLE userMessages (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  usernameId INT,
-  messageId INT,
-  FOREIGN KEY (usernameId) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (messageId) REFERENCES messages(id)
-);
+
+

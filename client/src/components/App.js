@@ -16,7 +16,7 @@ class App extends Component {
     this.state = {
       view: 'sign in',
       username: '',
-      logData: []
+      logData: [],
     }
 
     this.handleView = this.handleView.bind(this);
@@ -65,7 +65,6 @@ class App extends Component {
     })
   }
 
-
   //GET log information from server
   handleViewLogs(date) {
     axios.get('/logs', { params: { date: date, username: this.state.username }})
@@ -79,6 +78,7 @@ class App extends Component {
     })
   }
 
+
   handleView(option) {
     this.setState({
       view: option
@@ -89,7 +89,7 @@ class App extends Component {
     if(this.state.view === 'log') {
       return <Log logData={ this.state.logData } handleViewLogs={ this.handleViewLogs } deleteLog={ this.deleteLog } handleLogForm={ this.handleLogForm } handleView={ this.handleView } />
     } else if(this.state.view === 'chat') {
-      return <Chat username={ this.state.username } />
+      return <Chat getChatMessages={ this.getChatMessages } chatHistory={ this.state.chatHistory } username={ this.state.username } />
     } else if(this.state.view === 'sign in') {
       return <SignIn handleView={ this.handleView } />
     } else if(this.state.view === 'sign up') {

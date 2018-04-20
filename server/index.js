@@ -3,6 +3,7 @@ const app = express();
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const moment = require('moment');
 
 // Routes
 const routes = require('./routes.js');
@@ -20,7 +21,8 @@ app.use(express.static(__dirname + '/../client/dist'));
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg, username, time) => {
-    io.emit('chat message', msg);
+  	let clientTime = moment().startOf(time).fromNow();
+    io.emit('chat message', msg, username, clientTime);
     chatControllers.saveMessages(msg, username, time);
   })
 
@@ -28,8 +30,6 @@ io.on('connection', (socket) => {
   	console.log('a user disconnected');
   })
 })
-
-
 
 
 http.listen('3000', () => {
