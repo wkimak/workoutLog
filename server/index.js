@@ -26,6 +26,10 @@ io.on('connection', (socket) => {
     chatControllers.saveMessages(msg, username, time);
   })
 
+   socket.on('typing', (username) => {
+   	socket.broadcast.emit('typing', username);
+   })
+
   socket.on('disconnect', () => {
   	console.log('a user disconnected');
   })

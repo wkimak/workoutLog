@@ -15,14 +15,13 @@ exports.saveMessages = (msg, username, time) => {
 }
 
 exports.getMessages = (req, res) => {
-  
   knex.select().from('messages')
   .join('users', 'messages.usernameId', '=', 'users.id' )
+  .orderBy('created_at', 'asc')
   .then((data) => {
     res.send(data);
   })
   .catch((err) => {
     console.log('error retrieving msgs from db', err);
   })
-
 }

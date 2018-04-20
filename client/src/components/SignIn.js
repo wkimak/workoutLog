@@ -9,6 +9,8 @@ class SignIn extends Component {
 	  }
   }
 
+
+
   render() {
     return(
       <div className="container">
@@ -30,7 +32,7 @@ class SignIn extends Component {
         
             <div className="row">
               <button className="waves-light btn-large col s2 offset-s4" name="action">Login</button>
-              <button className="waves-light btn-large col s2" name="action" onClick={ () => this.props.handleView('sign up') } >Sign Up</button>
+              <button className="waves-light btn-large col s2" name="action" onClick={ (e) => { e.preventDefault(); this.props.handleView('sign up') }} >Sign Up</button>
             </div>
           </form>
         </div>
