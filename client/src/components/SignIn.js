@@ -6,7 +6,7 @@ class SignIn extends Component {
     super(props);
     this.state = {
 
-	}
+	  }
   }
 
   render() {
@@ -16,15 +16,15 @@ class SignIn extends Component {
           <form>
             <div className="row">
               <div className="input-field col s6 offset-s3">
-                <input id="last_name" type="text" className="validate" />
-                <label for="last_name">Username</label>
+                <input type="text" className="validate" />
+                <label>Username</label>
               </div>
             </div>
      
             <div className="row">
               <div className="input-field col s6 offset-s3">
                 <input type="password" className="validate" />
-                <label for="password">Password</label>
+                <label>Password</label>
               </div>
             </div>
         

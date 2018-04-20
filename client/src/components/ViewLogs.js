@@ -6,10 +6,10 @@ class ViewLogs extends Component {
 
   constructor(props){
     super(props);
-
     this.state = {
       selectedDay: ''
     }
+
     this.handleDayChange = this.handleDayChange.bind(this);
   }
 
@@ -30,7 +30,7 @@ class ViewLogs extends Component {
           <td> { item.exercise } </td>
           <td> { item.sets }  </td>
           <td> { item.reps } </td>
-          <td><i className="material-icons" onClick={ () => this.props.deleteLog(item.id, i)}>delete</i></td>
+          <td><i className="material-icons" onClick={ () => this.props.deleteLog(item.id, i) }>delete</i></td>
         </tr>
       );
     })

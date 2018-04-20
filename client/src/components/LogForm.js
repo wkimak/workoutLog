@@ -45,14 +45,12 @@ class LogForm extends Component {
 
 
 	render() {
-
 		const rows = [];
 		for(let i = 0; i < this.state.numRows; i++) {
-
-     let row = <tr key={i} >
-     <td><input ref={'exercise' + i} name='exercise' className='browser-default col s8' type='text' /></td>
-     <td> <input ref={'sets' + i} name='sets' className='browser-default col s3' type='text' /></td>
-     <td><input ref={'reps' + i} name='reps' className='browser-default col s3' type='text' /></td>
+      let row = <tr key={i} >
+       <td><input ref={'exercise' + i} name='exercise' className='browser-default col s8' type='text' /></td>
+       <td> <input ref={'sets' + i} name='sets' className='browser-default col s3' type='text' /></td>
+       <td><input ref={'reps' + i} name='reps' className='browser-default col s3' type='text' /></td>
      </tr>;
 
 		  rows.push(row);
@@ -74,21 +72,17 @@ class LogForm extends Component {
 
                 <tbody>
                   {rows}
-                </tbody>
-                
+                </tbody>    
               </table>
               
               <div className='row logForm_buttons'>
                 <button className="waves-teal btn-flat col s2" onClick={ (e) => this.addRow(e) }>Add</button>
                 <button className='col s3 btn offset-s6' onClick={ () => this.submitLog(rows) }>Submit</button>
               </div>
-			 
-			        
 			      </div>
           </div>
         </div>
       </div>
-   
 		);
 	}
 }

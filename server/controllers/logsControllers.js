@@ -1,7 +1,7 @@
- const { knex } = require('../../db/index.js');
- const moment = require('moment');
+const { knex } = require('../../db/index.js');
+const moment = require('moment');
 
- exports.insertLogs = (req, res) => {
+exports.insertLogs = (req, res) => {
   let formatDate = moment(req.body.created_at).format('YYYY MM DD');
   let finalDate = formatDate.replace(/\s/g, '-');
 
@@ -38,19 +38,17 @@ exports.getLogs = (req,res) => {
  
   knex.select('id').from('users').where({username: req.query.username})
   .then((id) => {
-
-   knex.select().from('logs').where({created_at: finalDate, usernameId: id[0].id})
-   .then((data) => {
-     res.send(data);
-   })
-   .catch((err) => {
-     console.log('error retriving logs', err);
-   })
+    knex.select().from('logs').where({created_at: finalDate, usernameId: id[0].id})
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log('error retriving logs', err);
+    })
   })
   .catch((err) => {
     console.log('error retriving usernameId', err);
   })
-
 }
 
 exports.deleteLog = (req, res) => {

@@ -27,7 +27,8 @@
     "mysql": "^2.15.0",
     "react": "^16.3.2",
     "react-day-picker": "^7.1.6",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "socket.io": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

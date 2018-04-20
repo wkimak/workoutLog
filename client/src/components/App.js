@@ -29,7 +29,7 @@ class App extends Component {
 
   //POST username/password to server
   handleSignUp(username, password) {
-    axios.post('/users', {username: username, password:password})
+    axios.post('/users', { username: username, password:password })
     .catch((err) => {
       console.log('POST request failed for /users', err);
     })
@@ -41,7 +41,7 @@ class App extends Component {
 
   //POST logform info to server
   handleLogForm(exercise, sets, reps, date) {
-     axios.post('/logs', {exercise: exercise, sets: sets, reps: reps, username: this.state.username, created_at: date})
+     axios.post('/logs', { exercise: exercise, sets: sets, reps: reps, username: this.state.username, created_at: date })
      .catch((err) => {
       console.log(err);
      })
@@ -58,7 +58,7 @@ class App extends Component {
     })
 
     this.setState({ logData: copy });
-
+    
     axios.delete('/deleteLog', { params: { logId: id } })
     .catch((err) => {
       console.log('error deleting log', err);
