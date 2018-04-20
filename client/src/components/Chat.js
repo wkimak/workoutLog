@@ -8,7 +8,7 @@ class Chat extends Component {
 		super(props);
     this.state = {
       inputVal: '',
-      messages: ''
+
     }
 
     this.handleInput = this.handleInput.bind(this);
@@ -24,7 +24,8 @@ class Chat extends Component {
   sendMessage(e) {
     e.preventDefault();
     const socket = socketClient();
-    socket.emit('chat message', this.state.inputVal);
+    let time = new Date();
+    socket.emit('chat message', this.state.inputVal, this.props.username, time);
   }
 
 	render() {
@@ -46,7 +47,7 @@ class Chat extends Component {
             <div className='card-content'>
               <div className='row chat_room'>
                 <ul>
-                  { this.state.messages }
+                  {}
                 </ul>
               </div>
               <div className='row'>

@@ -89,7 +89,7 @@ class App extends Component {
     if(this.state.view === 'log') {
       return <Log logData={ this.state.logData } handleViewLogs={ this.handleViewLogs } deleteLog={ this.deleteLog } handleLogForm={ this.handleLogForm } handleView={ this.handleView } />
     } else if(this.state.view === 'chat') {
-      return <Chat />
+      return <Chat username={ this.state.username } />
     } else if(this.state.view === 'sign in') {
       return <SignIn handleView={ this.handleView } />
     } else if(this.state.view === 'sign up') {

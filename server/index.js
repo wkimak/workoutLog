@@ -6,7 +6,8 @@ const io = require('socket.io')(http);
 
 // Routes
 const routes = require('./routes.js');
-const chatControllers = require(__dirname + 'controllers/chatControllers');
+const chatControllers = require(__dirname + '/controllers/chatControllers');
+
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -18,9 +19,9 @@ app.use(express.static(__dirname + '/../client/dist'));
 
 
 io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
+  socket.on('chat message', (msg, username, time) => {
     io.emit('chat message', msg);
-    chatControllers.saveMessages();
+    chatControllers.saveMessages(msg, username, time);
   })
 
   socket.on('disconnect', () => {
