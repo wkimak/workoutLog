@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class LogIn extends Component {
 
@@ -7,7 +7,7 @@ class LogIn extends Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
 	  }
 
     this.handleInputs = this.handleInputs.bind(this);
@@ -29,20 +29,27 @@ class LogIn extends Component {
 
 
   render() {
+    
+   if(this.props.isauthenticated === true) {
+    return(
+      <Redirect to='log' />
+    )
+   }
+
     return(
       <div className="container">
         <div className="row">
           <form onSubmit={ (e) => this.submit(e) }>
             <div className="row">
               <div className="input-field col s6 offset-s3">
-                <input value={ this.state.username } onChange={ (e) => this.handleInputs(e) } name='username' type="text" className="validate" />
+                <input value={ this.state.username } onChange={ (e) => this.handleInputs(e) } name='username' type="text" className="validate" required />
                 <label>Username</label>
               </div>
             </div>
      
             <div className="row">
               <div className="input-field col s6 offset-s3">
-                <input value={ this.state.password } onChange={ (e) => this.handleInputs(e) } name='password' type="password" className="validate" />
+                <input value={ this.state.password } onChange={ (e) => this.handleInputs(e) } name='password' type="password" className="validate" required  />
                 <label>Password</label>
               </div>
             </div>

@@ -27,7 +27,7 @@ exports.userLogin = (req, res) => {
   knex.select().from('users').where({ username: username })
   .then((data) => {
   	if(data.length === 0) {
-  		res.send('Username does not match');
+  		res.send('Incorrect Username');
   	} else {
         if(password === data[0].password){
       	  utils.createSession(req, res, { username, password })

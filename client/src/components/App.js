@@ -8,6 +8,7 @@ import SignUp from './SignUp';
 import axios from 'axios';
 
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { auth, PrivateRoute } from './PrivateRoute';
 
 
 class App extends Component {
@@ -17,7 +18,8 @@ class App extends Component {
 
     this.state = {
       username: '',
-      logData: []
+      logData: [], 
+      authenticated: false
     }
 
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -25,6 +27,9 @@ class App extends Component {
     this.handleLogForm = this.handleLogForm.bind(this);
     this.deleteLog = this.deleteLog.bind(this);
     this.handleViewLogs = this.handleViewLogs.bind(this);
+
+    this.myLogProps = this.myLogProps.bind(this);
+    this.myChatProps = this.myChatProps.bind(this);
   }
 
   //POST username/password to server
@@ -44,7 +49,13 @@ class App extends Component {
     axios.post('/signin', { username: username, password: password })
     .then((response) => {
       if(response.data === 'match') {
-        console.log('match!!');
+        auth.authenticate(() => {
+          this.setState({ authenticated: true })
+        })
+      } else if(response.data === 'Incorrect Username') {
+         alert('Incorrect Username');
+      } else {
+         alert('Incorrect Password');
       }
     })
     .catch((err) => {
@@ -92,28 +103,38 @@ class App extends Component {
   }
 
 
+  myLogProps() {
+    return(
+      <Log logData={ this.state.logData } 
+           handleViewLogs={ this.handleViewLogs }
+           deleteLog={ this.deleteLog } 
+           handleLogForm={ this.handleLogForm } />
+    )
+  }
+
+  myChatProps() {
+    return(
+      <Chat username={ this.state.username } />
+    )
+  }
+
+
   render() {
   	return(
       <div className='app_container'>
         <Navbar handleView={ this.handleView } />
 
         <Switch>
-          <Route exact path='/login' render={ () => (
-            <LogIn handleLogin={ this.handleLogin } />
+          <Route path='/login' render={ () => (
+            <LogIn handleLogin={ this.handleLogin } isauthenticated={ this.state.authenticated } />
           )} />
 
-          <Route exact path='/signup' render={ () => (
+          <Route path='/signup' render={ () => (
             <SignUp handleSignUp={ this.handleSignUp } />
-          )} />
+          )} /> 
 
-          <Route exact path='/chatroom' render={ () => (
-            <Chat getChatMessages={ this.getChatMessages } chatHistory={ this.state.chatHistory } username={ this.state.username } />
-          )} />
-
-          <Route exact path='/' render={ () => (
-            <Log logData={ this.state.logData } handleViewLogs={ this.handleViewLogs } deleteLog={ this.deleteLog } handleLogForm={ this.handleLogForm } />
-          )} />
-
+          <PrivateRoute exact path='/chatroom' component={ this.myChatProps } />
+          <PrivateRoute exact path='/log' component={ this.myLogProps } />
         </Switch>   
       </div>
   	)

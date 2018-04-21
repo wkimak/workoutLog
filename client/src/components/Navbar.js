@@ -9,7 +9,7 @@ const Navbar = function({ handleView }) {
       <div className="nav-wrapper">
         <a href="#" className="brand-logo">Workout Log</a>
         <ul className="right hide-on-med-and-down">
-          <li><Link to='/'>Log</Link></li>
+          <li><Link to='/log'>Log</Link></li>
           <li><Link to='/chatroom'>Chat</Link></li>
           <li><Link to='/login'>Log In</Link></li>
         </ul>
