@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; 
 
 
 const Navbar = function({ handleView }) {
@@ -7,10 +8,10 @@ const Navbar = function({ handleView }) {
    <nav>
       <div className="nav-wrapper">
         <a href="#" className="brand-logo">Workout Log</a>
-        <ul className="right hide-on-med-and-down" onClick={ (event) => handleView(event.target.innerHTML.toLowerCase()) }>
-          <li>Log</li>
-          <li>Chat</li>
-          <li>Sign In</li>
+        <ul className="right hide-on-med-and-down">
+          <li><Link to='/'>Log</Link></li>
+          <li><Link to='/chatroom'>Chat</Link></li>
+          <li><Link to='/login'>Log In</Link></li>
         </ul>
       </div>
     </nav>

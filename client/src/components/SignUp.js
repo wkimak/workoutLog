@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Redirect } from 'react-router-dom';
 
 class SignUp extends React.Component {
 
@@ -25,11 +26,8 @@ class SignUp extends React.Component {
       usernameVal: '',
       passwordVal: '',
       confPasswordVal: ''
-    })
-
-    this.props.handleView('sign in');
+    }) 
   }
-
 
   render() {
     return (

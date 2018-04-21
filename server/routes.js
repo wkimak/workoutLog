@@ -7,7 +7,8 @@ const chatControllers = require('./controllers/chatControllers');
 
 
 /* ----- routes ----- */
-router.post('/users', usersControllers.insertUsers);
+router.post('/signup', usersControllers.insertUsers);
+router.post('/signin', usersControllers.userLogin);
 router.post('/logs', logsControllers.insertLogs);
 
 router.delete('/deleteLog', logsControllers.deleteLog);

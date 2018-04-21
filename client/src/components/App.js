@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import Navbar from './Navbar';
 import Log from './Log';
 import Chat from './Chat';
-import SignIn from './SignIn';
+import LogIn from './LogIn';
 import SignUp from './SignUp';
 
 import axios from 'axios';
+
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 
 class App extends Component {
@@ -14,14 +16,12 @@ class App extends Component {
   	super(props);
 
     this.state = {
-      view: 'sign in',
       username: '',
-      logData: [],
+      logData: []
     }
 
-    this.handleView = this.handleView.bind(this);
-    this.renderView = this.renderView.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.handleLogForm = this.handleLogForm.bind(this);
     this.deleteLog = this.deleteLog.bind(this);
     this.handleViewLogs = this.handleViewLogs.bind(this);
@@ -29,13 +29,26 @@ class App extends Component {
 
   //POST username/password to server
   handleSignUp(username, password) {
-    axios.post('/users', { username: username, password:password })
+    axios.post('/signup', { username: username, password:password })
     .catch((err) => {
       console.log('POST request failed for /users', err);
     })
 
     this.setState({
       username: username
+    })
+  }
+
+  //POST username/password to server
+  handleLogin(username, password) {
+    axios.post('/signin', { username: username, password: password })
+    .then((response) => {
+      if(response.data === 'match') {
+        console.log('match!!');
+      }
+    })
+    .catch((err) => {
+      console.log('POST request failed for /login', err);
     })
   }
 
@@ -79,30 +92,29 @@ class App extends Component {
   }
 
 
-  handleView(option) {
-    this.setState({
-      view: option
-    })
-  }
-
-  renderView() {
-    if(this.state.view === 'log') {
-      return <Log logData={ this.state.logData } handleViewLogs={ this.handleViewLogs } deleteLog={ this.deleteLog } handleLogForm={ this.handleLogForm } handleView={ this.handleView } />
-    } else if(this.state.view === 'chat') {
-      return <Chat getChatMessages={ this.getChatMessages } chatHistory={ this.state.chatHistory } username={ this.state.username } />
-    } else if(this.state.view === 'sign in') {
-      return <SignIn handleView={ this.handleView } />
-    } else if(this.state.view === 'sign up') {
-      return <SignUp handleView={ this.handleView } handleSignUp={ this.handleSignUp } />
-    }
-  }
-
-
   render() {
   	return(
       <div className='app_container'>
         <Navbar handleView={ this.handleView } />
-        {this.renderView()}
+
+        <Switch>
+          <Route exact path='/login' render={ () => (
+            <LogIn handleLogin={ this.handleLogin } />
+          )} />
+
+          <Route exact path='/signup' render={ () => (
+            <SignUp handleSignUp={ this.handleSignUp } />
+          )} />
+
+          <Route exact path='/chatroom' render={ () => (
+            <Chat getChatMessages={ this.getChatMessages } chatHistory={ this.state.chatHistory } username={ this.state.username } />
+          )} />
+
+          <Route exact path='/' render={ () => (
+            <Log logData={ this.state.logData } handleViewLogs={ this.handleViewLogs } deleteLog={ this.deleteLog } handleLogForm={ this.handleLogForm } />
+          )} />
+
+        </Switch>   
       </div>
   	)
   }
