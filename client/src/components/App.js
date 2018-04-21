@@ -38,10 +38,6 @@ class App extends Component {
     .catch((err) => {
       console.log('POST request failed for /users', err);
     })
-
-    this.setState({
-      username: username
-    })
   }
 
   //POST username/password to server
@@ -49,8 +45,9 @@ class App extends Component {
     axios.post('/signin', { username: username, password: password })
     .then((response) => {
       if(response.data === 'match') {
+        console.log('matched');
         auth.authenticate(() => {
-          this.setState({ authenticated: true })
+          this.setState({ authenticated: true, username: username })
         })
       } else if(response.data === 'Incorrect Username') {
          alert('Incorrect Username');

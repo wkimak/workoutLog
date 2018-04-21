@@ -30,7 +30,7 @@ exports.userLogin = (req, res) => {
   		res.send('Incorrect Username');
   	} else {
         if(password === data[0].password){
-      	  utils.createSession(req, res, { username, password })
+          res.send('match');
         } else {
           res.send('Incorrect Password');
         }

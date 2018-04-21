@@ -1,4 +1,9 @@
 import React, {Component} from 'react';
+
+import ChatMessages from './ChatMessages';
+import ActiveUsers from './ActiveUsers';
+
+
 import socketClient from 'socket.io-client';
 import axios from 'axios';
 import moment from 'moment';
@@ -11,7 +16,8 @@ class Chat extends Component {
     this.state = {
       inputVal: '',
       messages: [],
-      isTyping: ''
+      isTyping: '',
+      activeUsers: []
     }
 
     this.handleInput = this.handleInput.bind(this);
@@ -21,7 +27,8 @@ class Chat extends Component {
     this.handleBroadcast = this.handleBroadcast.bind(this);
     this.handleTyping = this.handleTyping.bind(this);
 
-    this.socket = socketClient();
+   /* -------- Socket ------- */
+    this.socket = socketClient("http://127.0.0.1:3000/", { query: { username: this.props.username }});
     this.socket.on('chat message', (msg, username, time) => {
       this.addMessage(msg, username, time);
     })
@@ -29,8 +36,17 @@ class Chat extends Component {
     this.socket.on('typing', (username) => {
       this.handleBroadcast(username);
     })
-	}
 
+    this.socket.on('getUsers', (usersArray) => {
+      console.log('GETUSERS', usersArray);
+      this.setState({ activeUsers: usersArray })
+    })
+
+    this.socket.on('disconnectUser', (usersArray) => {
+     console.log('disconnect');
+      this.setState({ activeUsers: usersArray });
+    })
+}
 
   // get previous chat messages from server
   getChatHistory() {
@@ -49,6 +65,13 @@ class Chat extends Component {
   // render chat history on mount
   componentDidMount() {
     this.getChatHistory();
+    this.socket.emit('getUsers');
+   // this.socket.emit('activeUsers', this.props.username);
+  }
+
+  componentWillUnmount() {
+    console.log('UNMOUNTED!');
+    this.socket.emit('disconnectUser');
   }
 
 
@@ -82,33 +105,31 @@ class Chat extends Component {
   }
 
 	render() {
+    console.log(this.state.activeUsers);
 		return(
-      <div className='container'>
+      <div className ='container'>
         <div className='row'>
-          <div className='card darken-1'>
-            <div className='card-content'>
-              <div className='row chat_room'> 
-                { this.state.messages.map((msg, i) => {
-                    return(
-                      <div key={ i } className='row message_container'>
-                        <span className='left-align'>{ msg.username }</span>
-                        <span className='right'>{ msg.time }</span>
-                        <div>{ msg.message }</div>
-                      </div>
-                    )
-                })}
-              </div>
+          <div className='col s8'>
+            <div className='card darken-1'>
+              <div className='card-content'>
+                <ChatMessages messages={ this.state.messages } />
+              
               <div className='row'> {this.state.isTyping} </div>
+              
               <div className='row'>
                 <form onSubmit={ (e) => this.emitMessage(e)}>
-                  <input  onKeyPress={ () => this.handleTyping() } value={ this.state.inputVal } onChange={ (e) => this.handleInput(e) } className='browser-default message_input col s8' type='text' placeholder='Message' />
+                  <input  onKeyPress={ () => this.handleTyping() } value={ this.state.inputVal } onChange={ (e) => this.handleInput(e) } className='browser-default message_input col s8' type='text' placeholder='Message' required />
                   <button type='submit' className="btn col s2 offset-s1">Send</button>
                 </form>  
               </div>
             </div>
           </div>
         </div>
+          <ActiveUsers activeUsers={ this.state.activeUsers } />
+        </div>
       </div>
+        
+     
 		);
 	}
 }

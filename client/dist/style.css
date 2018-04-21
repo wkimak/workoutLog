@@ -37,13 +37,28 @@ nav {
 }
 
 .chat_room {
+  padding: 20px;
   height: 400px;
   margin-top: 0;
   overflow-y: scroll;
 }
 
+.timestamp {
+  font-size: 12px;
+}
+
+.username {
+  font-style: italic;
+  color: blue;
+}
+
 .message_input {
   height: 40px;
+}
+
+.active_users_container {
+  height: 550px;
+  overflow-y: scroll;
 }
 
 

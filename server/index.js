@@ -31,19 +31,35 @@ app.use('/', routes);
 
 
 // Chatroom Socket
+let usersArray = [];
 io.on('connection', (socket) => {
+  let connectedUser = socket.handshake.query.username;
+  usersArray.push(connectedUser);
+
   socket.on('chat message', (msg, username, time) => {
   	let clientTime = moment().startOf(time).fromNow();
     io.emit('chat message', msg, username, clientTime);
     chatControllers.saveMessages(msg, username, time);
   })
 
-   socket.on('typing', (username) => {
-   	socket.broadcast.emit('typing', username);
-   })
+  socket.on('typing', (username) => {
+    socket.broadcast.emit('typing', username);
+  })
+
+  socket.on('getUsers', () => {
+    io.emit('getUsers', usersArray)
+  })
+   
+  socket.on('activeUsers', (user) => {
+    if(!usersArray.includes(user)) {
+      usersArray.push(user);
+    }
+    io.emit('activeUsers', usersArray);
+  })
 
   socket.on('disconnect', () => {
-  	console.log('a user disconnected');
+    usersArray.splice(usersArray.indexOf(connectedUser), 1);
+    io.emit('disconnectUser', usersArray);
   })
 })
 
