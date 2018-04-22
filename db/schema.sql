@@ -5,6 +5,7 @@ USE workout_log;
 
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS logs;
+DROP TABLE IF EXISTS messages;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -30,6 +31,19 @@ CREATE TABLE messages (
   usernameId INT,
   FOREIGN KEY (usernameId) REFERENCES users(id)
 );
+
+CREATE TABLE messageRelation (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  messageId INT,
+  fromId INT,
+  toId INT,
+  FOREIGN KEY (messageId) REFERENCES messages(id),
+  FOREIGN KEY (fromId) REFERENCES users(id),
+  FOREIGN KEY (toId) REFERENCES users(id)
+);
+
+
+
 
 
 

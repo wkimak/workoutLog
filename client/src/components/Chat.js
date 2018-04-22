@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import ChatMessages from './ChatMessages';
 import ActiveUsers from './ActiveUsers';
 
-
 import socketClient from 'socket.io-client';
 import axios from 'axios';
 import moment from 'moment';
@@ -15,9 +14,12 @@ class Chat extends Component {
 		super(props);
     this.state = {
       inputVal: '',
-      messages: [],
+      publicMessages: [],
+      privateMessages: [],
       isTyping: '',
-      activeUsers: []
+      activeUsers: [],
+      isPrivate: false,
+      currentRoom: ''
     }
 
     this.handleInput = this.handleInput.bind(this);
@@ -26,34 +28,52 @@ class Chat extends Component {
     this.getChatHistory = this.getChatHistory.bind(this);
     this.handleBroadcast = this.handleBroadcast.bind(this);
     this.handleTyping = this.handleTyping.bind(this);
+    this.privateRoom = this.privateRoom.bind(this);
 
-   /* -------- Socket ------- */
-    this.socket = socketClient("http://127.0.0.1:3000/", { query: { username: this.props.username }});
-    this.socket.on('chat message', (msg, username, time) => {
-      this.addMessage(msg, username, time);
+   /* -------- Sockets ------- */
+    this.publicSocket = socketClient({ query: { username: this.props.username }});
+    this.privateSocket = socketClient('/privateSocket', { query: { username: this.props.username }});
+
+
+    // Socket event handlers
+    this.publicSocket.on('chat message', (msg, username, time) => {
+      this.addMessage(msg, username, time, 'publicMessages');
     })
 
-    this.socket.on('typing', (username) => {
+    this.publicSocket.on('typing', (username) => {
       this.handleBroadcast(username);
     })
 
-    this.socket.on('getUsers', (usersArray) => {
+    this.publicSocket.on('getUsers', (usersArray) => {
       console.log('GETUSERS', usersArray);
       this.setState({ activeUsers: usersArray })
     })
 
-    this.socket.on('disconnectUser', (usersArray) => {
+    this.publicSocket.on('disconnectUser', (usersArray) => {
      console.log('disconnect');
       this.setState({ activeUsers: usersArray });
     })
-}
+
+   this.privateSocket.on('chat message', (msg, username, time) => {
+     this.addMessage(msg, username, time, 'privateMessages');
+   })
+
+   this.publicSocket.on('typing', (username) => {
+      this.handleBroadcast(username);
+    })
+  }
+
+
+
+
+
 
   // get previous chat messages from server
   getChatHistory() {
     axios.get('/chat')
     .then((data) => {
       data.data.map((msg) => {
-      this.state.messages.push({message: msg.message, username: msg.username, time: moment(msg.created_at).fromNow() });
+      this.state.publicMessages.push({message: msg.message, username: msg.username, time: moment(msg.created_at).fromNow() });
       })
       this.setState(this.state);
     })
@@ -65,13 +85,13 @@ class Chat extends Component {
   // render chat history on mount
   componentDidMount() {
     this.getChatHistory();
-    this.socket.emit('getUsers');
+    this.publicSocket.emit('getUsers');
    // this.socket.emit('activeUsers', this.props.username);
   }
 
   componentWillUnmount() {
     console.log('UNMOUNTED!');
-    this.socket.emit('disconnectUser');
+    this.publicSocket.emit('disconnectUser');
   }
 
 
@@ -83,15 +103,24 @@ class Chat extends Component {
   }
 
   // Add submitted message to messages array
-  addMessage(msg, username, time) {
-    this.setState({ messages: [...this.state.messages, {message: msg, username: username, time: time }], isTyping: '' })
+  addMessage(msg, username, time, messageType) {
+    if(!this.state.isPrivate){
+      this.setState({ publicMessages: [...this.state.publicMessages, {message: msg, username: username, time: time }], isTyping: '' })
+    } else {
+      this.setState({privateMessages: [...this.state.privateMessages, {message: msg, username: username, time: time}]});
+    }
   }
  
   // send message to server
   emitMessage(e) {
     e.preventDefault();
     let time = new Date();
-    this.socket.emit('chat message', this.state.inputVal, this.props.username, time);
+    if(this.state.isPrivate === false) {
+      this.publicSocket.emit('chat message', this.state.inputVal, this.props.username, time);
+    } else {
+      this.privateSocket.emit('chat message', this.state.inputVal, this.props.username, time);
+    }
+
     this.setState({ inputVal: '', isTyping: '' });
   }
    
@@ -101,8 +130,20 @@ class Chat extends Component {
 
   // send username of user who is typing to server
   handleTyping() {
-    this.socket.emit('typing', this.props.username);
+    if(!this.state.isPrivate) {
+      this.publicSocket.emit('typing', this.props.username);
+    } else {
+      this.privateSocket.emit('typing', this.props.username);
+    }
   }
+
+
+  // enter into private room with selected user
+  privateRoom(room) {
+    this.setState({ isPrivate: true, currentRoom: room })
+  }
+
+
 
 	render() {
     console.log(this.state.activeUsers);
@@ -112,7 +153,7 @@ class Chat extends Component {
           <div className='col s8'>
             <div className='card darken-1'>
               <div className='card-content'>
-                <ChatMessages messages={ this.state.messages } />
+                <ChatMessages currentRoom={ this.state.currentRoom } isPrivate={ this.state.isPrivate } privateMessages={ this.state.privateMessages } publicMessages={ this.state.publicMessages } />
               
               <div className='row'> {this.state.isTyping} </div>
               
@@ -125,7 +166,7 @@ class Chat extends Component {
             </div>
           </div>
         </div>
-          <ActiveUsers activeUsers={ this.state.activeUsers } />
+          <ActiveUsers privateRoom={ this.privateRoom } activeUsers={ this.state.activeUsers } />
         </div>
       </div>
         

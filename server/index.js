@@ -30,11 +30,15 @@ app.use('/', routes);
 
 
 
-// Chatroom Socket
+/* --------- Public Chat Socket --------- */
 let usersArray = [];
 io.on('connection', (socket) => {
+  
   let connectedUser = socket.handshake.query.username;
+
+  if(!usersArray.includes(connectedUser)) {
   usersArray.push(connectedUser);
+  }
 
   socket.on('chat message', (msg, username, time) => {
   	let clientTime = moment().startOf(time).fromNow();
@@ -61,7 +65,29 @@ io.on('connection', (socket) => {
     usersArray.splice(usersArray.indexOf(connectedUser), 1);
     io.emit('disconnectUser', usersArray);
   })
+
 })
+
+/* ------ Private Chat Socket ------- */
+const privateIo = io.of('/privateSocket');
+privateIo.on('connection', function(socket){
+
+  socket.on('chat message', (msg, username, time) => {
+    let clientTime = moment().startOf(time).fromNow();
+    privateIo.emit('chat message', msg, username, clientTime);
+    chatControllers.saveMessages(msg, username, time);
+  })
+
+  socket.on('typing', (username) => {
+    console.log('USERNAME', username);
+    socket.broadcast.emit('typing', username);
+  })
+
+
+
+  console.log('someone connected privately');
+});
+
 
 
 http.listen('3000', () => {

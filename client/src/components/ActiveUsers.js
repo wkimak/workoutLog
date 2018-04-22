@@ -2,7 +2,7 @@ import React from 'react';
 
 /* ------ Level 3 ------ */
 
-const ActiveUsers = ({ activeUsers }) => {
+const ActiveUsers = ({ activeUsers, privateRoom }) => {
 
 	return(
     <div className='col s4'>
@@ -13,7 +13,7 @@ const ActiveUsers = ({ activeUsers }) => {
 
           {activeUsers.map((usr, i) => {
             return(
-              <li key={ i }><i className="material-icons">person</i>{usr}</li>
+              <li key={ i } onClick={ (e) => privateRoom(e.target.innerHTML) }><i className="material-icons">person</i>{usr}</li>
             )
           })}
 
