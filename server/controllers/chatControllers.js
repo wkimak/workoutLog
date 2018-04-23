@@ -2,7 +2,6 @@ const { knex } = require('../../db/index.js');
 const moment = require('moment');
 
 exports.saveMessages = (msg, username, time, room) => {
-  console.log(msg, time, username, room);
 	
   let dateTime = moment(new Date(time)).format("YYYY-MM-DD HH:mm:ss");
 
@@ -16,8 +15,7 @@ exports.saveMessages = (msg, username, time, room) => {
 }
 
 exports.getMessages = (req, res) => {
-  console.log(req.query);
-  knex.select().from('messages').where({ room: req.query.room })
+  knex.select().from('messages').where({ room: 'public' })
   .join('users', 'messages.usernameId', '=', 'users.id' )
   .orderBy('created_at', 'asc')
   .then((data) => {

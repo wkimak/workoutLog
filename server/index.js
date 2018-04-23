@@ -66,25 +66,31 @@ io.sockets.on('connection', (socket) => {
   })
 
   socket.on('chat message', (msg, time) => {
-     
     chatControllers.saveMessages(msg, socket.username, time, socket.room); 
 
-    io.sockets.in(socket.room).emit('updatechat', socket.username, msg, time )
+    let relativeTime = moment(time).fromNow();
+
+    io.sockets.in(socket.room).emit('updatechat', socket.username, msg, relativeTime);
   })
 
   // When user switches room
   socket.on('switch room', (usr, myUsername) => {
     socket.leave(socket.room);
-     
-    var newroom = myUsername + ' / ' + usr;
+    
 
-    var reverse = newroom.split(' ').reverse().join(' ');
-    if(!rooms.includes(newroom) && !rooms.includes(reverse)){
-      rooms.push(newroom);
-    } else {
-      newroom = rooms[rooms.indexOf(reverse)];
-    }
+    if(usr !== 'public') {
+      var newroom = myUsername + ' / ' + usr;
   
+      var reverse = newroom.split(' ').reverse().join(' ');
+      if(!rooms.includes(newroom) && !rooms.includes(reverse)){
+        rooms.push(newroom);
+      } else {
+        newroom = rooms[rooms.indexOf(reverse)];
+      }
+    } else {
+      newroom = 'public';
+    }
+
     socket.join(newroom);
 
     socket.emit('updateusers', 'you have connected to ' + newroom);

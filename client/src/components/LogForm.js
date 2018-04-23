@@ -15,6 +15,7 @@ class LogForm extends Component {
 
     this.addRow = this.addRow.bind(this);
     this.submitLog = this.submitLog.bind(this);
+
 	}
 
 
@@ -28,11 +29,15 @@ class LogForm extends Component {
     this.setState(this.state);
 
     this.props.sendValuesUp(this.state.exerciseVals, this.state.setsVals, this.state.repsVals);
+
+    this.refs.exercise0 = '';
+    this.refs.sets0 = '';
+    this.refs.reps0 = '';
     this.setState({
-      exerciseVals: [],
-      setsVals: [],
-      repsVals: []
+      numRows: 1,
     })
+
+
   }
 
   addRow(e) {

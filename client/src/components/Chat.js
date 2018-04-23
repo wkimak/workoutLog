@@ -83,20 +83,23 @@ class Chat extends Component {
 
   }
 
-
-    
+ 
   //Switching Rooms
   switchRoom(usr) {
-    this.getChatHistory();
+    if(usr === 'public') {
+      this.getChatHistory();
+    }
+    
+    this.setState({ messages: [] });
     this.socket.emit('switch room', usr, this.props.username);
-    this.setState({ messages: [{username: null, message: null, time: null }]});
   }
-
 
 
   // get previous chat messages from server
   getChatHistory() {
    
+    this.setState({ messages: [{username: null, message: null, time: null }]});
+
     axios.get('/chat', {params: {room: this.state.currentRoom} })
     .then((data) => {
       data.data.map((msg) => {
@@ -114,6 +117,7 @@ class Chat extends Component {
     this.getChatHistory();
     this.socket.emit('add user', this.props.username);  
     this.socket.emit('get users');
+    this.setState({openChats: ['public']});
   }
 
 
@@ -129,7 +133,6 @@ class Chat extends Component {
   emitMessage(e) {
     e.preventDefault();
     let time = new Date();
-   
     this.socket.emit('chat message', this.state.inputVal, time);
     this.setState({ inputVal: '' });
   }

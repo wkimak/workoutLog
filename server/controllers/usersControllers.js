@@ -1,5 +1,4 @@
 const { knex } = require('../../db/index.js');
-const utils = require('../utility.js');
 
 
 exports.insertUsers = (req, res) => {
@@ -8,14 +7,11 @@ exports.insertUsers = (req, res) => {
   let password = req.body.password;
 
   knex('users').insert({ username: username, password: password })
-  .then((data) => {
-    utils.createSession(req, res, { username, password });
-  })
   .catch((err) => {
-  	console.log('account already exists');
+    res.send('account already exists');
   })
   
-  res.status(201).send();
+  res.status(201);
  }
 
 

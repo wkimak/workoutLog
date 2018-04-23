@@ -9,7 +9,7 @@ const ActiveUsers = ({ activeUsers, openChats, currentRoom, switchRooms }) => {
         <div className='card-content'>
           <h6 className='center-align'>Active Users</h6>
           <ul>
-
+            <li onClick={ (e) => switchRooms('public') }><i className="material-icons">person</i>public chat</li>
           {activeUsers.map((usr, i) => {
             return(
               <li key={ i } onClick={ (e) => switchRooms(usr) }><i className="material-icons">person</i>{usr}</li>
@@ -18,7 +18,7 @@ const ActiveUsers = ({ activeUsers, openChats, currentRoom, switchRooms }) => {
 
           </ul>
           
-          <h6 className='center-align'> Current Chats </h6>
+          <h6 className='center-align open_chats'> Current Chats </h6>
           <ul>
             {openChats.map((room, i) => {
               return(

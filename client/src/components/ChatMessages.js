@@ -12,6 +12,8 @@ class ChatMessages extends Component {
 
   render() {
 
+    console.log('MESSAGES', this.props.messages);
+
     return(
       <div className='row chat_room'>  
         <p>{ this.props.roomUpdate }</p>

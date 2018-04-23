@@ -36,9 +36,18 @@ class App extends Component {
   //POST username/password to server
   handleSignUp(username, password) {
     axios.post('/signup', { username: username, password:password })
+    .then((response) => {
+      console.log(response);
+      if(response.data === 'account already exists') {
+        alert('account already exists');
+      } else {
+        return <Redirect to='/login' />
+      }
+    })
     .catch((err) => {
       console.log('POST request failed for /users', err);
     })
+
   }
 
   //POST username/password to server

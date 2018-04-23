@@ -6,7 +6,7 @@ const Navbar = function({ handleView, authenticated, logOut }) {
 
   return(
    <nav>
-      <div className="nav-wrapper">
+      <div className="nav-wrapper #01579b light-blue darken-4">
         <a href="#" className="brand-logo">Workout Log</a>
         <ul className="right hide-on-med-and-down">
           <li><Link to='/log'>Log</Link></li>

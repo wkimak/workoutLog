@@ -43,7 +43,7 @@ class Log extends Component {
         <div className='container'>
           <div className='row'>
             <input className='col s4 offset-s1' type='text' placeholder='YYYY-M-D' value={ this.state.dateVal } onChange={ (e) => this.handleInput(e) } />
-            <button className='col s4 btn offset-s1' onClick={ () => this.showViewLogs() }>View Logs</button>
+            <button className='col s4 btn offset-s1 #c62828 red darken-3' onClick={ () => this.showViewLogs() }>View Logs</button>
           </div>
         </div>
         <LogForm sendValuesUp={ this.sendValuesUp } />

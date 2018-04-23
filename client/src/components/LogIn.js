@@ -29,7 +29,6 @@ class LogIn extends Component {
 
 
   render() {
-    console.log(this.props.isauthenticated);
     
    if(this.props.isauthenticated === true) {
     return(

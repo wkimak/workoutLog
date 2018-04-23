@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 class SignUp extends React.Component {
 
@@ -8,7 +8,8 @@ class SignUp extends React.Component {
     this.state = {
       usernameVal: '',
       passwordVal: '',
-      confPasswordVal: ''
+      confPasswordVal: '',
+      fireRedirect: false
 	  }
 
     this.handleInputs = this.handleInputs.bind(this);
@@ -25,7 +26,8 @@ class SignUp extends React.Component {
     this.setState({
       usernameVal: '',
       passwordVal: '',
-      confPasswordVal: ''
+      confPasswordVal: '',
+      fireRedirect: true
     }) 
   }
 
@@ -55,8 +57,9 @@ class SignUp extends React.Component {
               </div>
             </div>
 
-            <button className="btn waves-light col s4 offset-s4" type="submit" name="action">Submit</button>
+             <button className="btn waves-light col s4 offset-s4" type="submit" name="action">Submit</button> 
           </form>
+           { this.state.fireRedirect ? <Redirect to='/login' /> : null }
         </div>
       </div>
     );
