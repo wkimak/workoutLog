@@ -31,62 +31,89 @@ app.use('/', routes);
 
 
 /* --------- Public Chat Socket --------- */
-let usersArray = [];
-io.on('connection', (socket) => {
-  
-  let connectedUser = socket.handshake.query.username;
 
-  if(!usersArray.includes(connectedUser)) {
-  usersArray.push(connectedUser);
-  }
+// usernames that are currently connected to chat
+let usernames = {};
 
-  socket.on('chat message', (msg, username, time) => {
-  	let clientTime = moment().startOf(time).fromNow();
-    io.emit('chat message', msg, username, clientTime);
-    chatControllers.saveMessages(msg, username, time);
-  })
+// rooms that are currently available in chat
+let rooms = ['public'];
 
-  socket.on('typing', (username) => {
-    socket.broadcast.emit('typing', username);
-  })
 
-  socket.on('getUsers', () => {
-    io.emit('getUsers', usersArray)
+io.sockets.on('connection', (socket) => {
+
+  // When user joins chat
+  socket.on('add user', (username) => {
+
+     socket.username = username;
+     socket.room = 'public';
+
+     usernames[username] = username;
+
+     socket.join('public');
+
+     socket.emit('updatechat', 'You have connected to the public chat');
+
+     socket.broadcast.emit('updateusers', null, username);
+     socket.broadcast.to('public').emit('updateusers', username + ' has entered this room', null);
+
+     socket.emit('updaterooms', rooms, 'public');
+
   })
    
-  socket.on('activeUsers', (user) => {
-    if(!usersArray.includes(user)) {
-      usersArray.push(user);
+   // Get Active Users to show up on chat side bar
+  socket.on('get users', () => {
+    socket.emit('get users', usernames);
+  })
+
+  socket.on('chat message', (msg, time) => {
+     
+    chatControllers.saveMessages(msg, socket.username, time, socket.room); 
+
+    io.sockets.in(socket.room).emit('updatechat', socket.username, msg, time )
+  })
+
+  // When user switches room
+  socket.on('switch room', (usr, myUsername) => {
+    socket.leave(socket.room);
+     
+    var newroom = myUsername + ' / ' + usr;
+
+    var reverse = newroom.split(' ').reverse().join(' ');
+    if(!rooms.includes(newroom) && !rooms.includes(reverse)){
+      rooms.push(newroom);
+    } else {
+      newroom = rooms[rooms.indexOf(reverse)];
     }
-    io.emit('activeUsers', usersArray);
-  })
+  
+    socket.join(newroom);
 
-  socket.on('disconnect', () => {
-    usersArray.splice(usersArray.indexOf(connectedUser), 1);
-    io.emit('disconnectUser', usersArray);
-  })
+    socket.emit('updateusers', 'you have connected to ' + newroom);
 
-})
+    socket.broadcast.to(socket.room).emit('updatechat', socket.username + ' has left the room');
 
-/* ------ Private Chat Socket ------- */
-const privateIo = io.of('/privateSocket');
-privateIo.on('connection', function(socket){
+    socket.room = newroom;
 
-  socket.on('chat message', (msg, username, time) => {
-    let clientTime = moment().startOf(time).fromNow();
-    privateIo.emit('chat message', msg, username, clientTime);
-    chatControllers.saveMessages(msg, username, time);
-  })
+    socket.broadcast.to(newroom).emit('updatechat', socket.username + ' has entered this room');
 
-  socket.on('typing', (username) => {
-    console.log('USERNAME', username);
-    socket.broadcast.emit('typing', username);
+    socket.emit('updaterooms', rooms, newroom);
   })
 
 
+  // When User leaves chat
+  socket.on('disconnect', function(){
+      // remove the username from global usernames list
+      delete usernames[socket.username];
+      // update list of users in chat, client-side
+      io.sockets.emit('deleteusers', socket.username);
+      // echo globally that this client has left
+      socket.broadcast.emit('updatechat', socket.username + ' has disconnected');
+      socket.leave(socket.room);
+    });
 
-  console.log('someone connected privately');
+
 });
+
+
 
 
 

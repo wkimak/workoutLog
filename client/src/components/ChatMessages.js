@@ -12,12 +12,10 @@ class ChatMessages extends Component {
 
   render() {
 
-    console.log('PV', this.props.privateMessages);
-
     return(
       <div className='row chat_room'>  
-
-        { this.props.isPrivate ? this.props.privateMessages.map((msg, i) => {
+        <p>{ this.props.roomUpdate }</p>
+        { this.props.messages.map((msg, i) => {
             return(
               <div key={ i } className='row message_container'>
                 <span className='left-align username'>{ msg.username }</span>
@@ -25,17 +23,7 @@ class ChatMessages extends Component {
                 <div>{ msg.message }</div>
               </div>
             )
-        }) 
-        :
-        this.props.publicMessages.map((msg, i) => {
-          return(
-            <div key={ i } className='row message_container'>
-              <span className='left-align username'>{ msg.username }</span>
-              <span className='right timestamp'>{ msg.time }</span>
-              <div>{ msg.message }</div>
-            </div>
-          )
-        })} 
+        })}         
       </div>
     )
   }

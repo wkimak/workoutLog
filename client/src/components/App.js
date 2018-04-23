@@ -27,6 +27,7 @@ class App extends Component {
     this.handleLogForm = this.handleLogForm.bind(this);
     this.deleteLog = this.deleteLog.bind(this);
     this.handleViewLogs = this.handleViewLogs.bind(this);
+    this.logOut = this.logOut.bind(this);
 
     this.myLogProps = this.myLogProps.bind(this);
     this.myChatProps = this.myChatProps.bind(this);
@@ -58,6 +59,12 @@ class App extends Component {
     .catch((err) => {
       console.log('POST request failed for /login', err);
     })
+  }
+
+  logOut() {
+     auth.signout(() => {
+       this.setState({ authenticated: false, username: '' })
+     })
   }
 
   //POST logform info to server
@@ -119,9 +126,13 @@ class App extends Component {
   render() {
   	return(
       <div className='app_container'>
-        <Navbar handleView={ this.handleView } />
+        <Navbar logOut={ this.logOut } authenticated={this.state.authenticated} handleView={ this.handleView } />
 
         <Switch>
+          <Route exact path='/' render={ () => (
+            <Redirect to='/login' />
+            )} />
+
           <Route path='/login' render={ () => (
             <LogIn handleLogin={ this.handleLogin } isauthenticated={ this.state.authenticated } />
           )} />

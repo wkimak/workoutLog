@@ -28,19 +28,11 @@ CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   created_at DATETIME NOT NULL,
   message VARCHAR(255),
+  room VARCHAR (30) NOT NULL,
   usernameId INT,
   FOREIGN KEY (usernameId) REFERENCES users(id)
 );
 
-CREATE TABLE messageRelation (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  messageId INT,
-  fromId INT,
-  toId INT,
-  FOREIGN KEY (messageId) REFERENCES messages(id),
-  FOREIGN KEY (fromId) REFERENCES users(id),
-  FOREIGN KEY (toId) REFERENCES users(id)
-);
 
 
 

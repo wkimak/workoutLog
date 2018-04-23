@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; 
 
 
-const Navbar = function({ handleView }) {
+const Navbar = function({ handleView, authenticated, logOut }) {
 
   return(
    <nav>
@@ -11,7 +11,7 @@ const Navbar = function({ handleView }) {
         <ul className="right hide-on-med-and-down">
           <li><Link to='/log'>Log</Link></li>
           <li><Link to='/chatroom'>Chat</Link></li>
-          <li><Link to='/login'>Log In</Link></li>
+          <li onClick={ () => authenticated ? logOut() : null }><Link to='/login'>{ authenticated ? 'Log Out': 'Log In' }</Link></li>
         </ul>
       </div>
     </nav>

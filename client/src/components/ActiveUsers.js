@@ -2,8 +2,7 @@ import React from 'react';
 
 /* ------ Level 3 ------ */
 
-const ActiveUsers = ({ activeUsers, privateRoom }) => {
-
+const ActiveUsers = ({ activeUsers, openChats, currentRoom, switchRooms }) => {
 	return(
     <div className='col s4'>
       <div className='card dark-1 active_users_container'>
@@ -13,10 +12,19 @@ const ActiveUsers = ({ activeUsers, privateRoom }) => {
 
           {activeUsers.map((usr, i) => {
             return(
-              <li key={ i } onClick={ (e) => privateRoom(e.target.innerHTML) }><i className="material-icons">person</i>{usr}</li>
+              <li key={ i } onClick={ (e) => switchRooms(usr) }><i className="material-icons">person</i>{usr}</li>
             )
           })}
 
+          </ul>
+          
+          <h6 className='center-align'> Current Chats </h6>
+          <ul>
+            {openChats.map((room, i) => {
+              return(
+              <li key={ i } style={ room === currentRoom ? {color: 'red'} : {color: 'black'}}>  { room } </li>
+              )
+            })}
           </ul>
         </div>
       </div>
